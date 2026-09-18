@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blackjack</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%99%A0%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-name">Blackjack</span>
+      <span class="brand-rules">3:2 · dealer stands on 17 · six-deck shoe</span>
+    </div>
+    <div class="bankroll">
+      <span class="bankroll-label">Bankroll</span>
+      <span class="bankroll-amount" id="balance">—</span>
+    </div>
+  </header>
+
+  <main class="table">
+    <section class="seat">
+      <div class="seat-meta">
+        <span class="seat-name">Dealer</span>
+        <span class="hand-value" id="dealer-value"></span>
+      </div>
+      <div class="hand" id="dealer-hand"></div>
+    </section>
+
+    <div class="mark" aria-hidden="true">
+      <div class="mark-main">Blackjack pays three to two</div>
+      <div class="mark-rule"></div>
+      <div class="mark-sub">Dealer stands on all 17 · six-deck shoe</div>
+    </div>
+
+    <section class="seat">
+      <div class="hand" id="player-hand"></div>
+      <div class="seat-meta">
+        <span class="seat-name">You</span>
+        <span class="hand-value" id="player-value"></span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="console" id="console" aria-live="polite"></footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

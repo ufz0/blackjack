@@ -1,0 +1,18 @@
+{
+  "name": "blackjack",
+  "version": "1.0.0",
+  "description": "Single-player blackjack web app with a server-authoritative six-deck shoe",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

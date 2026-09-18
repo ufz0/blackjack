@@ -1,0 +1,9 @@
+services:
+  blackjack:
+    build: .
+    container_name: blackjack
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
