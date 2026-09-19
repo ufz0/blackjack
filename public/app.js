@@ -48,16 +48,21 @@ function valueOf(cards) {
   return total;
 }
 
-async function api(path, body) {
-  const opts =
-    body === undefined
-      ? {}
-      : {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ client: CLIENT, ...body }),
-        };
-  const res = await fetch(path, opts);
+async function apiGet(path) {
+  const res = await fetch(path);
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error || 'Request failed');
+  }
+  return data;
+}
+
+async function apiPost(path, body = {}) {
+  const res = await fetch(path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ client: CLIENT, ...body }),
+  });
   const data = await res.json();
   if (!res.ok) {
     throw new Error(data.error || 'Request failed');
@@ -209,7 +214,7 @@ function bettingPanel(s) {
     updateBet(s);
   });
   actions.querySelector('#btn-deal').addEventListener('click', () =>
-    act(() => api('/api/deal', { bet }), ['player', 'dealer'])
+    act(() => apiPost('/api/deal', { bet }), ['player', 'dealer'])
   );
 
   panel.append(row, actions);
@@ -222,8 +227,8 @@ function actionsPanel() {
   const row = document.createElement('div');
   row.className = 'actions-row';
   row.innerHTML = `<button type="button" class="btn" id="btn-hit">Hit</button><button type="button" class="btn primary" id="btn-stand">Stand</button>`;
-  row.querySelector('#btn-hit').addEventListener('click', () => act(() => api('/api/hit'), ['player']));
-  row.querySelector('#btn-stand').addEventListener('click', () => act(() => api('/api/stand'), ['dealer']));
+  row.querySelector('#btn-hit').addEventListener('click', () => act(() => apiPost('/api/hit'), ['player']));
+  row.querySelector('#btn-stand').addEventListener('click', () => act(() => apiPost('/api/stand'), ['dealer']));
   const hint = document.createElement('div');
   hint.className = 'hint';
   hint.textContent = 'h to hit · s to stand';
@@ -239,7 +244,7 @@ function rebuyPanel() {
   btn.type = 'button';
   btn.className = 'btn primary';
   btn.textContent = 'Rebuy 1,000';
-  btn.addEventListener('click', () => act(() => api('/api/reset'), []));
+  btn.addEventListener('click', () => act(() => apiPost('/api/reset'), []));
   panel.append(btn);
   return panel;
 }
@@ -307,7 +312,7 @@ document.addEventListener('keydown', (e) => {
 
 (async () => {
   try {
-    render(await api('/api/state?client=' + encodeURIComponent(CLIENT)));
+    render(await apiGet('/api/state?client=' + encodeURIComponent(CLIENT)));
   } catch {
     el.balance.textContent = '—';
   }
